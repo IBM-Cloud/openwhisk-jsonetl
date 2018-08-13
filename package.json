@@ -1,0 +1,30 @@
+{
+  "name": "openwhisk-jsonetl",
+  "version": "0.0.1",
+  "description": "JSON ETL (Extract-Transform-Load) utilities for OpenWhisk",
+  "scripts": {
+    "build": "tsc && webpack --config webpack.config.js",
+    "deploy": "npm run build && wskdeploy -m manifest.yaml"
+  },
+  "author": "van_staub@us.ibm.com",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/chai": "^4.1.4",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.5.5",
+    "@types/request-promise": "^4.1.42",
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "ts-loader": "^4.4.2",
+    "ts-node": "^7.0.0",
+    "typescript": "^3.0.1",
+    "webpack": "^4.16.4",
+    "webpack-cli": "^3.1.0"
+  },
+  "dependencies": {
+    "jsonata": "^1.5.4",
+    "openwhisk": "^3.16.0",
+    "request": "^2.87.0",
+    "request-promise": "^4.2.2"
+  }
+}
