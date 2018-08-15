@@ -39,7 +39,7 @@ To understand what's happening above and the value each step provides, review th
 
 ### Request
 
-Makes an HTTP request by using Request and Request-Promise. Both are natively available on OpenWhisk. This returns a Promise.
+Makes an HTTP request by using Request and Request-Promise. Both are natively available on OpenWhisk. This returns a Promise. You can support variable substitution in the URL by passing an input object and declaring JSONata to create a replacement value. For example, passing the input object `{route: "foo" , _url: 'http://ibm.com/{{route}}'}` yields `http://ibm.com/foo` as the URL.
 
 | Input | Description |
 | --- | ---  |
@@ -95,6 +95,18 @@ Maps properties to a new name. For example, you might map `id` to `accountId`. T
 | Output | Description |
 | --- | ---  |
 | any | Returns the original object with property updates |
+
+### Pick
+Creates an object that contains only whitelisted properties. The values are obtained from individual JSONata expressions.
+
+| Input | Description |
+| --- | ---  |
+| _keys: string | Properties that will be included in the result object |
+| _jsonatas: string | Comma-separated JSONatas that declare the value for a similarly indexed property |
+
+| Output | Description |
+| --- | ---  |
+| any | Returns an object only the key value pairs |
 
 ### Csv
 
@@ -247,3 +259,6 @@ Assume that every Request you make will have the same authentication. You've cre
 
 ### wskdeploy --preview
 If you were to reference the JSONetl functions and attempt to `wskdeploy` it would fail. This is because wskdeploy will look for those function inside your project. They don't yet exist due to order of operations in wskdeploy. So you'll first need to execute `wskdeploy --preview` to download the packages and then follow with `wskdeploy`.
+
+### Returning an Object versus an Object._data
+Some functions return an object while others return an object with the data you want assigned to the `_data` property. Why? Since all OpenWhisk functions must return an object, there's a safeguard to prevent JSONata that returns an array or string from being returned and causing an error. So for situations when this could occur, the returned object will assign the Javascript primitive to the `_data` property.
