@@ -1,4 +1,5 @@
 import Data from './Data';
+import Jsonata, { JsonataParams } from './Jsonata';
 
 import * as rp from 'request-promise';
 
@@ -14,7 +15,6 @@ export interface RequestParams {
 
 export default async function main(params: RequestParams): Promise<Data> {
   const {
-    _url: url,
     _username: user,
     _password: pass,
     _bearer: bearer,
@@ -22,6 +22,8 @@ export default async function main(params: RequestParams): Promise<Data> {
     _method: method = 'GET',
     _body: body
   } = params;
+
+  let { _url: url } = params;
 
   const options: rp.RequestPromiseOptions = {
     method,
@@ -45,8 +47,22 @@ export default async function main(params: RequestParams): Promise<Data> {
     options.body = body;
   }
 
+  // replace anything of the form {{expression}}
+  const replacements = url.match(/{{[^}]*}}/gi);
+
+  if (replacements) {
+    console.log(`Found ${replacements.length} substitution(s) in URL`);
+
+    url = replacements.reduce((url: string, replacement: string) => {
+      const _jsonata = replacement.substring(2, replacement.length-2);
+      const value = Jsonata({...params as any, ...{ _jsonata, _toObj: false } as JsonataParams});
+      
+      return url.replace(replacement, value);
+    }, url);
+  }
+
   console.log(`${method} request to ${url} auth=${user && pass ? 'basic' : (bearer ? 'bearer' : 'none')} body=${body ? JSON.stringify(body) : 'none'}`);
-  
+
   // wrap the response since sometimes the result is not a JSON object (e.g. an array)
   return {
     _data: await rp(url, options)
