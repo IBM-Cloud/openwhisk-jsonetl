@@ -14,15 +14,21 @@ export default function main(params: JsonataParams): Data | any {
   if (expr) {
     console.log(`Evaluate '${expr}' and return an object ${toObj}`);
 
+    const _data = jsonata(expr).evaluate(params);
+
+    if (!_data) {
+      console.error(`No value found at '${expr}'`);
+    }
+
     // wrap the response since sometimes the result is not a JSON object (e.g. an array)
     // this is the default behavior since Functions expects an object
     if (toObj) {
       return {
-        _data: jsonata(expr).evaluate(params)
+        _data
       } as Data;
     } else {
       // provide back the raw result (i.e. I know it's an array and I want an array)
-      return jsonata(expr).evaluate(params);
+      return _data;
     }
   } else {
     console.log(`No jsonata to evaluate - returning original object`);
