@@ -1,10 +1,11 @@
 {
   "name": "openwhisk-jsonetl",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "JSON ETL (Extract-Transform-Load) utilities for OpenWhisk",
   "scripts": {
     "build": "tsc && webpack --config webpack.config.js",
-    "deploy": "npm run build && wskdeploy -m manifest.yaml"
+    "deploy": "npm run build && wskdeploy -m manifest.yaml",
+    "test": "mocha -r ts-node/register test/functionsTest.ts"
   },
   "author": "van_staub@us.ibm.com",
   "license": "Apache-2.0",
