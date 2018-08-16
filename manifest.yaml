@@ -1,0 +1,4 @@
+packages:
+  openwhisk-jsonetl:
+    version: 0.0.2
+    license: Apache-2.0
