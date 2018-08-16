@@ -68,3 +68,5 @@ export default async function main(params: RequestParams): Promise<Data> {
     _data: await rp(url, options)
   };
 }
+
+(<any>global).main = main;  // required when using webpack

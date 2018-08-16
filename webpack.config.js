@@ -7,7 +7,8 @@ module.exports = {
     Csv: './src/Csv',
     Each: './src/Each',
     Jsonata: './src/Jsonata',
-    Map: './src/Map'
+    Map: './src/Map',
+    Request: './src/Request'
   },
   output: {
     path: path.resolve(__dirname, dist),
