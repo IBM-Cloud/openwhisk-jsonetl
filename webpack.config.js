@@ -8,6 +8,7 @@ module.exports = {
     Each: './src/Each',
     Jsonata: './src/Jsonata',
     Map: './src/Map',
+    Pick: './src/Pick',
     Request: './src/Request'
   },
   output: {

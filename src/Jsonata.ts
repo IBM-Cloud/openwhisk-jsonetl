@@ -17,7 +17,7 @@ export default function main(params: JsonataParams): Data | any {
     const _data = jsonata(expr).evaluate(params);
 
     if (!_data) {
-      console.error(`No value found at '${expr}'`);
+      console.error(`No value found at '${expr}' for object ${JSON.stringify(params)}`);
     }
 
     // wrap the response since sometimes the result is not a JSON object (e.g. an array)

@@ -50,6 +50,8 @@ Makes an HTTP request by using Request and Request-Promise. Both are natively av
 | _json?: boolean | True if the request/response is JSON |
 | _method?: string | The HTTP method (e.g. GET or POST) |
 | _body?: any | The body to POST if any |
+| _jsonata?: any | JSONata applied to the response (this becomes the output of Request) |
+| _retain?: boolean | Retains the original params in the response |
 
 | Output | Description |
 | --- | ---  |
@@ -70,7 +72,7 @@ Executes [JSONata](http://jsonata.org/) on the input object. Note that Functions
 
 ### Each
 
-Executes an OpenWhisk Action (or Sequence) on each object of an array. The array is not passed to Each - rather you'll provide a JSONata expression that evaluates to create an array after which Actions will be invoked. This returns a Promise, but it's expected that your Action or Sequence will handle additional behavior.
+Executes an OpenWhisk Action (or Sequence) on each object of an array. The array is not passed to Each - rather you'll provide a JSONata expression that evaluates to create an array after which Actions will be invoked. You can choose to call a Sequence to begin a new pipeline or call and individual Action that uses the result for an existing Sequence.
 
 | Input | Description |
 | --- | ---  |
@@ -108,6 +110,17 @@ Creates an object that contains only whitelisted properties. The values are obta
 | --- | ---  |
 | any | Returns an object only the key value pairs |
 
+### Stringify
+Creates an object that converts whitelisted properties' values into strings. Keys must be at the top level, which is what most downstream Actions would also expect.
+
+| Input | Description |
+| --- | ---  |
+| _keys: string | Properties that will be stringified in the result object |
+
+| Output | Description |
+| --- | ---  |
+| any | Returns the original object with newly stringified values |
+
 ### Csv
 
 Converts a JSON object to CSV.
@@ -118,6 +131,7 @@ Converts a JSON object to CSV.
 | _fields: string | A comma separated list JSONata expressions to locate the value |
 | _path?: string | The JSONata expression to locate the array of objects that will become rows in the CSV |
 | _delim?: string | The delimiter between values |
+| _retain?: boolean | Retains the original params in the response |
 
 | Output | Description |
 | --- | ---  |

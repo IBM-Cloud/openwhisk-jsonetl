@@ -21,3 +21,5 @@ export default function main(params: PickParams): any {
 
   return picked;
 }
+
+(<any>global).main = main;  // required when using webpack
