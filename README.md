@@ -39,7 +39,7 @@ To understand what's happening above and the value each step provides, review th
 
 ### Request
 
-Makes an HTTP request by using Request and Request-Promise. Both are natively available on OpenWhisk. This returns a Promise. You can support variable substitution in the URL by passing an input object and declaring JSONata to create a replacement value. For example, passing the input object `{route: "foo" , _url: 'http://ibm.com/{{route}}'}` yields `http://ibm.com/foo` as the URL.
+Makes an HTTP request by using Request and Request-Promise. Both are natively available on OpenWhisk. This returns a Promise. You can support variable substitution in the URL by passing an input object and declaring JSONata to create a replacement value. For example, passing the input object `{route: "foo" , _url: 'http://ibm.com/{{route}}'}` yields `http://ibm.com/foo` as the URL. More complex substitution is also possible with `{complex: { entity: ["foo","bar"] } , _url: 'http://ibm.com/{{complex.entity[0]}}'}`  You can also substitute inside the `_body` as well. Just pass in a string with more templated values.
 
 | Input | Description |
 | --- | ---  |
