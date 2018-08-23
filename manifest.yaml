@@ -1,4 +1,26 @@
 packages:
   openwhisk-jsonetl:
-    version: 0.0.5
+    version: 0.0.6
     license: Apache-2.0
+    actions:
+      csv:
+        function: dist/Csv.js
+        runtime: nodejs:8
+      each:
+        function: dist/Each.js
+        runtime: nodejs:8
+      jsonata:
+        function: dist/Jsonata.js
+        runtime: nodejs:8
+      map:
+        function: dist/Map.js
+        runtime: nodejs:8
+      pick:
+        function: dist/Pick.js
+        runtime: nodejs:8
+      request:
+        function: dist/Request.js
+        runtime: nodejs:8
+      stringify:
+        function: dist/Stringify.js
+        runtime: nodejs:8
