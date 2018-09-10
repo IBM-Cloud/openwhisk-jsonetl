@@ -1,16 +1,16 @@
 import Jsonata, { JsonataParams } from "./Jsonata";
 
 export interface PickParams {
-  _keys?: string;
+  _keys: string;
   _jsonatas: string;
 }
 
 export default function main(params: PickParams): any {
   const keys: string[] = params._keys.split(',');
-  const jsonatas: string[] = params._jsonatas.split(',');
+  const jsonatas: string[] = params._jsonatas.trim().split(';');
 
   if (keys.length !== jsonatas.length) {
-    throw Error(`Pick output keys and jsonata expressions do not match`);
+    throw Error(`Pick output keys ${keys} and jsonata expressions ${jsonatas} do not match`);
   }
 
   const picked = {};

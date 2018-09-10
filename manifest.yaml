@@ -9,6 +9,9 @@ packages:
       each:
         function: dist/Each.js
         runtime: nodejs:8
+      flatten:
+        function: dist/Flatten.js
+        runtime: nodejs:8
       jsonata:
         function: dist/Jsonata.js
         runtime: nodejs:8

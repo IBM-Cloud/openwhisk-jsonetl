@@ -1,5 +1,5 @@
-import Data from './Data';
 import Jsonata, { JsonataParams } from './Jsonata';
+import Result from './Result';
 
 import * as openwhisk from 'openwhisk';
 
@@ -9,11 +9,11 @@ export interface EachParams {
   _blocking?: boolean;
 }
 
-export default async function main(params: EachParams): Promise<Data> {
+export default async function main(params: EachParams): Promise<any> {
   const ow = openwhisk();
 
   const { _action: name, _path: path, _blocking: blocking = false} = params;
-  const array: any[] = Jsonata({...params as any, ...{_jsonata: path, _toObj: false} as JsonataParams});
+  const array: any[] = Jsonata({...params as any, ...{_jsonata: path.trim(), _toObj: false} as JsonataParams});
 
   console.log(`Running '${name}' action on ${array.length} elements at path '${path}'`);
 
@@ -28,9 +28,8 @@ export default async function main(params: EachParams): Promise<Data> {
   });
 
   // run all actions and return
-  return {
-    _data: await Promise.all(owActions)
-  };
+  const response = await Promise.all(owActions)
+  return Result(response);
 }
 
 (<any>global).main = main;  // required when using webpack

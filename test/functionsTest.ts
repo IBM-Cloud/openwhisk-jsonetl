@@ -1,4 +1,5 @@
 import Request, { RequestParams } from '../src/Request';
+import Flatten, { FlattenParams } from '../src/Flatten';
 
 import { expect } from 'chai';
 
@@ -20,6 +21,25 @@ describe('openwhisk-JSONetl', function () {
     } as RequestParams);
 
     expect(res).to.not.be.undefined;
+  });
+
+  it('flatten', () => {
+    const params = {
+      _keys: "foo,bar",
+      _array: "list",
+      foo: 'foo',
+      bar: 'bar',
+      list: [
+        {},
+        {}
+      ]
+    };
+
+    const flatter = Flatten(params as FlattenParams);
+    console.log(flatter);
+
+    expect(flatter.list[0].bar).to.equal(params.bar);
+    expect(flatter.list[1].foo).to.equal(params.foo);
   });
 
 });

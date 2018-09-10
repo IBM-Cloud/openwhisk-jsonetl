@@ -1,5 +1,5 @@
-import Data from './Data';
 import Jsonata, { JsonataParams } from './Jsonata';
+import Result from './Result';
 
 import * as rp from 'request-promise';
 
@@ -12,10 +12,10 @@ export interface RequestParams {
   _method?: string;
   _body?: any;
   _jsonata?: string;
-  _retain?: boolean;
+  _retain?: string;
 }
 
-export default async function main(params: RequestParams): Promise<Data> {
+export default async function main(params: RequestParams): Promise<any> {
   const {
     _username: user,
     _password: pass,
@@ -24,7 +24,7 @@ export default async function main(params: RequestParams): Promise<Data> {
     _method: method = 'GET',
     _body: body,
     _jsonata: jsonata,
-    _retain: retain = false
+    _retain: retain
   } = params;
 
   let { _url: url } = params;
@@ -63,22 +63,13 @@ export default async function main(params: RequestParams): Promise<Data> {
 
   console.log(`${options.method} request to ${url} auth=${options.auth.user && options.auth.pass ? 'basic' : (options.auth.bearer ? 'bearer' : 'none')} body=${body ? JSON.stringify(options.body) : 'none'}`);
 
-  // wrap the response since sometimes the result is not a JSON object (e.g. an array)
   let response = await rp(url, options);
 
   if (jsonata) {
-    response = Jsonata({...response, ...{ _jsonata: jsonata, _toObj: false } as JsonataParams});
+    response = Jsonata({...response, ...{ _jsonata: jsonata.trim(), _toObj: false } as JsonataParams});
   }
 
-  const data =  {
-    _data: response
-  };
-
-  if (retain) {
-    return {...params, ...data} as Data; // the incoming params will be retained in the resulting object
-  } else {
-    return data;
-  }
+  return retain ? Result(response, params) : Result(response);
 }
 
 function substitute(templatedString: string, params: any) {
@@ -93,7 +84,7 @@ function substitute(templatedString: string, params: any) {
     console.log(`Found ${replacements} substitution(s)`);
 
     result = replacements.reduce((url: string, replacement: string) => {
-      const _jsonata = replacement.substring(2, replacement.length-2);
+      const _jsonata = replacement.substring(2, replacement.length-2).trim();
       const value = Jsonata({...params as any, ...{ _jsonata, _toObj: false } as JsonataParams});
       
       return url.replace(replacement, value);
