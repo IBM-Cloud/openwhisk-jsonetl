@@ -61,7 +61,7 @@ export default async function main(params: RequestParams): Promise<any> {
     }
   }
 
-  console.log(`${options.method} request to ${url} auth=${options.auth.user && options.auth.pass ? 'basic' : (options.auth.bearer ? 'bearer' : 'none')} body=${body ? JSON.stringify(options.body) : 'none'}`);
+  console.log(`${options.method} request to ${url} auth=${options.auth && options.auth.user && options.auth.pass ? 'basic' : (options.auth && options.auth.bearer ? 'bearer' : 'none')} body=${body ? JSON.stringify(options.body) : 'none'}`);
 
   let response = await rp(url, options);
 
