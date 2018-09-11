@@ -24,6 +24,3 @@ packages:
       request:
         function: dist/Request.js
         runtime: nodejs:8
-      stringify:
-        function: dist/Stringify.js
-        runtime: nodejs:8
