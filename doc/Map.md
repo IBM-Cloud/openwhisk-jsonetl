@@ -5,4 +5,4 @@ Maps values to a new name. For example, you might map `id` to `accountId`. This 
 | Input | Description |
 | --- | ---  |
 | _keys: string | A comma separated list of property names to create |
-| _jsonatas: string | A comma separated list JSONata expressions to evaluate and assign to similarly indexed `keys` |
+| _jsonatas: string | A semicolon separated list of JSONata expressions to evaluate and assign to similarly indexed `keys` |

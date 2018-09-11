@@ -4,4 +4,4 @@ Creates an object that contains only whitelisted properties. The values are obta
 | Input | Description |
 | --- | ---  |
 | _keys: string | Properties that will be included in the result object |
-| _jsonatas: string | A comma separated list JSONata expressions to evaluate and assign to similarly indexed `keys` |
+| _jsonatas: string | A semicolon separated list JSONata expressions to evaluate and assign to similarly indexed `keys` |

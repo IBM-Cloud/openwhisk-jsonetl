@@ -1,0 +1,38 @@
+packages:
+  openwhisk-jsonetl-samples:
+    version: 1.0
+    license: Apache-2.0
+    dependencies:
+      jsonetl:
+        location: github.com/IBM-Cloud/openwhisk-jsonetl
+    actions:
+      users:
+        code: function main(params) { return params; }
+        runtime: nodejs:8
+        inputs:
+          _url: https://jsonplaceholder.typicode.com/users
+      first-user:
+        code: function main(params) { return params; }
+        runtime: nodejs:8
+        inputs:
+          _keys: userId,userName
+          _jsonatas: data[0].id;data[0].name
+      user-posts:
+        code: function main(params) { return params; }
+        runtime: nodejs:8
+        inputs:
+          _url: https://jsonplaceholder.typicode.com/posts?userId={{userId}}
+          _retain: userId,userName
+      copy-user-name:
+        code: function main(params) { return params; }
+        runtime: nodejs:8
+        inputs:
+          _keys: userName
+          _array: data
+    sequences:
+      get-users:
+        actions: users,openwhisk-jsonetl/request
+      get-first-user:
+        actions: get-users,first-user,openwhisk-jsonetl/pick
+      get-posts:
+        actions: get-first-user,user-posts,openwhisk-jsonetl/request,copy-user-name,openwhisk-jsonetl/flatten
