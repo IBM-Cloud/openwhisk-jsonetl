@@ -26,6 +26,9 @@ export default function main(params: any): any {
     }
   });
 
+  delete params._keys;
+  delete params._jsonatas;
+
   return params;
 }
 
