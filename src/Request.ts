@@ -5,6 +5,7 @@ import * as rp from 'request-promise';
 
 export interface RequestParams {
   _url: string;
+  _headers?: string;
   _username?: string;
   _password?: string;
   _bearer?: string;
@@ -17,6 +18,7 @@ export interface RequestParams {
 
 export default async function main(params: RequestParams): Promise<any> {
   const {
+    _headers: headers,
     _username: user,
     _password: pass,
     _bearer: bearer,
@@ -34,6 +36,16 @@ export default async function main(params: RequestParams): Promise<any> {
     method,
     json
   };
+
+  if (headers) {
+    options.headers = {};
+
+    headers.split(',').forEach((header) => {
+      const tuple = header.split(':');
+      console.log(tuple)
+      options.headers[tuple[0]] = tuple[1];
+    });
+  }
 
   if (user && pass) {
     options.auth = { user, pass };

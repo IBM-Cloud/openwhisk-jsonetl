@@ -13,6 +13,21 @@ describe('openwhisk-JSONetl', function () {
     expect(res).to.not.be.undefined;
   });
 
+  it ('request with headers', async () => {
+    const res = await Request({
+      _url: 'https://jsonplaceholder.typicode.com/posts',
+      _headers: 'Content-type:application/json; charset=UTF-8',
+      _json: true,
+      _body: {
+        title: 'foo',
+        body: 'bar',
+        userId: 1
+      }
+    } as RequestParams);
+
+    expect(res).to.not.be.undefined;
+  });
+
   it ('request with substitution', async () => {
     const res = await Request({
       _url: 'http://jsonplaceholder.typicode.com/{{route}}/{{some.samples[0].input}}',
